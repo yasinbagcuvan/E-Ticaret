@@ -1,0 +1,18 @@
+﻿@using ViewModels
+@model CategoryViewModel
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly"></div>
+	<table>
+    <tr>
+        <td>
+            <label asp-for="Name">Kategori Adı</label>
+            <input asp-for="Name" placeholder="Bu Alanı Doldurunuz"/>
+                <span asp-validation-for="Name" class="form-text text-danger"></span>
+        </td>
+        <td>
+                <button type="submit" class="btn btn-primary">Submit</button>
+        </td>
+    </tr>
+</table>
+</form>

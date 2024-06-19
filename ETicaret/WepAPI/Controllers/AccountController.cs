@@ -50,7 +50,7 @@ namespace WepAPI.Controllers
         }
 
         [HttpPost("Register")]
-        public IActionResult Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
             AppUser user = _userManager.FindByEmailAsync(model.Email).Result;
 
@@ -69,6 +69,8 @@ namespace WepAPI.Controllers
             user.UserName = model.UserName;
             user.PasswordHash = hasher.HashPassword(null, model.Password);
 
+            await _userManager.AddToRoleAsync(user, "User");
+
             IdentityResult result = _userManager.CreateAsync(user).Result;
 
             if (result.Succeeded)
@@ -85,7 +87,7 @@ namespace WepAPI.Controllers
 
                 string link = _configuration["Mail:ConfirmLink"];
                 link += "?userMail=" + user.Email;
-                link += "&token=" + token; // https://localhost:7021/Account/ConfirmEmail?userMail=goksel@mail.com&token=asdasd
+                link += "&token=" + token; 
 
 
                 string aTag = $"<a href=\"{link}\">tıklayınız.</a>";
@@ -102,48 +104,48 @@ namespace WepAPI.Controllers
             return BadRequest("İşlem yapılamadı.");
         }
 
-        [HttpPost("SignIn")]
-        public IActionResult SignIn(SignInViewModel model)
-        {
+        //[HttpPost("SignIn")]
+        //public IActionResult SignIn(SignInViewModel model)
+        //{
 
 
-            AppUser? user = _userManager.FindByEmailAsync(model.Email).Result;
+        //    AppUser? user = _userManager.FindByEmailAsync(model.Email).Result;
 
-            if (user == null) return NotFound("Kullanıcı adı veya şifre yanlıştır.");
-
-
-            Microsoft.AspNetCore.Identity.SignInResult result = _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, true).Result;
-
-            if (result.Succeeded)
-            {
-                List<Claim> claims = HttpContext.User.Claims.ToList();
-
-                List<UserClaimViewModel> userClaimViewModel = new List<UserClaimViewModel>();
-
-                foreach (Claim claim in claims)
-                {
-                    userClaimViewModel.Add(new() { Type = claim.Type, Value = claim.Value });
-                }
-
-                SignInResponseViewModel response = new SignInResponseViewModel();
-                response.Claims = userClaimViewModel;
-
-                return Ok(response);
-            }
-
-            if (result.IsNotAllowed)
-            {
-                return BadRequest("Mail adresiniz doğrulanmamıştır");
-            }
-
-            if (result.IsLockedOut)
-            {
-                return BadRequest("Hesabınız kilitlenmiştir.");
-            }
+        //    if (user == null) return NotFound("Kullanıcı adı veya şifre yanlıştır.");
 
 
-            return NotFound("Kullanıcı adı veya şifre yanlıştır.");
-        }
+        //    Microsoft.AspNetCore.Identity.SignInResult result = _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, true).Result;
+
+        //    if (result.Succeeded)
+        //    {
+        //        List<Claim> claims = HttpContext.User.Claims.ToList();
+
+        //        List<UserClaimViewModel> userClaimViewModel = new List<UserClaimViewModel>();
+
+        //        foreach (Claim claim in claims)
+        //        {
+        //            userClaimViewModel.Add(new() { Type = claim.Type, Value = claim.Value });
+        //        }
+
+        //        SignInResponseViewModel response = new SignInResponseViewModel();
+        //        response.Claims = userClaimViewModel;
+
+        //        return Ok(response);
+        //    }
+
+        //    if (result.IsNotAllowed)
+        //    {
+        //        return BadRequest("Mail adresiniz doğrulanmamıştır");
+        //    }
+
+        //    if (result.IsLockedOut)
+        //    {
+        //        return BadRequest("Hesabınız kilitlenmiştir.");
+        //    }
+
+
+        //    return NotFound("Kullanıcı adı veya şifre yanlıştır.");
+        //}
 
         [HttpGet("ConfirmEmail")]
         public IActionResult ConfirmEmail(string userMail, string token)
@@ -170,8 +172,8 @@ namespace WepAPI.Controllers
         }
 
 
-        [HttpPost("SignInWithJwt")]
-        public IActionResult SignInWithJwt(SignInViewModel model)
+        [HttpPost("Login")]
+        public IActionResult Login(SignInViewModel model)
         {
 
 
@@ -214,6 +216,13 @@ namespace WepAPI.Controllers
 
 
             return NotFound("Kullanıcı adı veya şifre yanlıştır.");
+        }
+
+        [HttpPost("Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction(nameof(Login));
         }
 
         private string JwtGenerate(List<Claim> claims)

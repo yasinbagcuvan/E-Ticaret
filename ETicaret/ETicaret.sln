@@ -15,9 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModels", "ViewModels\Vi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WepAPI", "WepAPI\WepAPI.csproj", "{A938F628-10F5-4760-83AB-33D897318EBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{ADC7C974-A44F-4C1B-9EBC-6C9EE3B0A4A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{ADC7C974-A44F-4C1B-9EBC-6C9EE3B0A4A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{4ED3B74C-92A5-428A-838A-00D570D53D7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL", "BLL\BLL.csproj", "{4ED3B74C-92A5-428A-838A-00D570D53D7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETicaretMVC", "ETicaretMVC\ETicaretMVC.csproj", "{66DD6C40-D148-4694-AA21-DA9B2F19F948}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{4ED3B74C-92A5-428A-838A-00D570D53D7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4ED3B74C-92A5-428A-838A-00D570D53D7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4ED3B74C-92A5-428A-838A-00D570D53D7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66DD6C40-D148-4694-AA21-DA9B2F19F948}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66DD6C40-D148-4694-AA21-DA9B2F19F948}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66DD6C40-D148-4694-AA21-DA9B2F19F948}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66DD6C40-D148-4694-AA21-DA9B2F19F948}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

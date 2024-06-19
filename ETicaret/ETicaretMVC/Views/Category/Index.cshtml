@@ -1,0 +1,36 @@
+﻿@using ViewModels
+@model List<CategoryViewModel>
+
+<div class="container">
+
+    <h2>Common Fruits</h2>
+    <table class="table table-bordered table-striped table-responsive-stack" id="tableOne">
+        
+            <thead class="thead-dark">
+                <tr>
+                    <th>Kategori Adı</th>
+                    <th>Marka'nın Modelleri'</th>
+                    <th>Kategorinin Oluşturulma Tarihi</th>
+                </tr>
+            </thead>
+        @foreach (var item in Model)
+        {
+            <tbody>
+                <tr>
+                    <td>@item.Name</td>
+                    @if (item.Products.Any())
+                    {
+                        <td>
+                            @foreach (var product in item.Products)
+                            {
+                                product.Model.ToString();
+                            }
+                        </td>
+                    }                   
+                    <td>@item.Created</td>
+                </tr>
+            </tbody>
+        }     
+    </table>
+</div>
+<!-- /.container -->

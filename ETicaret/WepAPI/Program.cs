@@ -1,4 +1,6 @@
+using BLL.Concrete;
 using DAL.Context;
+using DAL.Repositories.Concrete;
 using DAL.Services.Abstract;
 using DAL.Services.Concrete;
 using Entities;
@@ -128,13 +130,13 @@ builder.Services.AddSwaggerGen(opt =>
 //builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen();
 
-//builder.Services.AddScoped<CategoryRepo>();
-//builder.Services.AddScoped<CategoryService>();
-//builder.Services.AddScoped<CategoryManager>();
+builder.Services.AddScoped<CategoryRepo>();
+builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<CategoryManager>();
 
-//builder.Services.AddScoped<ProductRepo>();
-//builder.Services.AddScoped<ProductService>();
-//builder.Services.AddScoped<ProductManager>();
+builder.Services.AddScoped<ProductRepo>();
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<ProductManager>();
 
 builder.Services.AddScoped<IMailService, GmailService>();
 
@@ -142,8 +144,8 @@ builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("MyPolicy", policy =>
     {
-        policy.WithOrigins("https://localhost:7021", "https://localhost:7174")
-              .WithMethods("GET")
+        policy.WithOrigins("https://localhost:7075", "https://localhost:7174")
+              .AllowAnyMethod()
               .AllowAnyHeader()
               .Build();
 

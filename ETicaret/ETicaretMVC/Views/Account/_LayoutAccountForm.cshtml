@@ -1,0 +1,52 @@
+﻿@{
+    Layout = "_LayoutAccount";
+}
+<div class="login-box">
+    <!-- /.login-logo -->
+    <div class="card card-outline card-primary">
+        <div class="card-header text-center">
+            <a  asp-controller="Home" asp-action="Index" class="h1"><b>Yaso</b>YAZILIM</a>
+        </div>
+        <div class="card-body">
+            <p class="login-box-msg">@ViewBag.LoginBoxMsg</p>
+
+            @if (ViewBag.FailLogin is not null)
+            {
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                    HATALI KULLANICI ADI VEYA ŞİFRE !
+                </div>
+            }
+
+            @RenderBody()
+
+            @if (ViewBag.LoginLink)
+            {
+                <p class="mb-1">
+                    <a asp-controller="Account" asp-action="Login" class="text-center">I already have a membership</a>
+                </p>
+            }
+
+            @if (ViewBag.RegisterLink)
+            {
+
+                <p class="mb-0">
+                    <a asp-controller="Account" asp-action="Register" class="text-center">Register a new membership</a>
+                </p>
+            }
+
+            @if (ViewBag.ForgotPasswordLink)
+            {
+                <p class="mb-1">
+                    <a asp-action="ForgotPassword">I forgot my password</a>
+                </p>
+            }
+
+
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</div>
+<!-- /.login-box -->
