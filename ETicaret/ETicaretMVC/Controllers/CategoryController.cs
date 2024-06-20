@@ -28,8 +28,12 @@ namespace ETicaretMVC.Controllers
         public async Task<ActionResult> Index()
         {
             {
+
+                string token = HttpContext.Session.GetString("TokenAuth");
+
                 //HttpClient httpClient = new HttpClient();
                 _httpClient.BaseAddress = new Uri("https://localhost:7029/"); //Api url
+                _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
                 HttpResponseMessage responseMessage = await _httpClient.GetAsync("/api/Categories/listele");
 
