@@ -31,8 +31,6 @@ namespace ETicaretMVC.Controllers
 
                 string token = HttpContext.Session.GetString("TokenAuth");
 
-                //HttpClient httpClient = new HttpClient();
-                _httpClient.BaseAddress = new Uri("https://localhost:7029/"); //Api url
                 _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
                 HttpResponseMessage responseMessage = await _httpClient.GetAsync("/api/Categories/listele");
@@ -79,8 +77,9 @@ namespace ETicaretMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(CategoryViewModel model)
         {
-            //HttpClient httpClient = new HttpClient();
-            //_httpClient.BaseAddress = new Uri("https://localhost:7029/"); //Api url
+            string token = HttpContext.Session.GetString("TokenAuth");
+
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
             model.AppUserId = Convert.ToInt32(HttpContext.User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value);//Login olmuş kullanicinin User bilgisinde alacağız
 

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace WepAPI.Filters
 {
@@ -137,7 +138,6 @@ namespace WepAPI.Filters
 
             base.OnActionExecuting(context);
         }
-
         public (bool Check, string Email, string Password) CheckAuthorization()
         {
             var authorization = _context.HttpContext.Request.Headers["Authorization"]; // Base64 Encode olarak değer gelecek
@@ -146,9 +146,7 @@ namespace WepAPI.Filters
 
             //authorization[0] // JWT
 
-            authorization = Encoding.UTF8.GetString(Convert.FromBase64String(authorization[1])); // username:password
-
-            authorization = authorization.ToString().Split(":");
+            var token = new JwtSecurityToken(authorization[1]);
 
             string email = "";
             string password = "";
@@ -156,8 +154,8 @@ namespace WepAPI.Filters
 
             if (authorization.Count == 2)
             {
-                email = authorization[0];
-                password = authorization[1];
+                email = token.Payload.Claims.FirstOrDefault(x=> x.Type == "Email").Value;
+                password = token.Payload.Claims.FirstOrDefault(x => x.Type == "Password").Value;
             }
             else
             {
@@ -168,6 +166,36 @@ namespace WepAPI.Filters
 
             return (check, email, password);
         }
+        //public (bool Check, string Email, string Password) CheckAuthorization()
+        //{
+        //    var authorization = _context.HttpContext.Request.Headers["Authorization"]; // Base64 Encode olarak değer gelecek
+
+        //    authorization = authorization.ToString().Split(" ");
+
+        //    //authorization[0] // JWT
+
+        //    authorization = Encoding.UTF8.GetString(Convert.FromBase64String(authorization[1])); // username:password
+
+        //    authorization = authorization.ToString().Split(":");
+
+        //    string email = "";
+        //    string password = "";
+        //    bool check = true;
+
+        //    if (authorization.Count == 2)
+        //    {
+        //        email = authorization[0];
+        //        password = authorization[1];
+        //    }
+        //    else
+        //    {
+        //        check = false;
+        //    }
+
+
+
+        //    return (check, email, password);
+        //}
 
         public IActionResult ReturnResult(object message, int statusCode)
         {

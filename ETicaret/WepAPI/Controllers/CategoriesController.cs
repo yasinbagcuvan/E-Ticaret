@@ -11,7 +11,7 @@ namespace WepAPI.Controllers
     [EnableCors("MyPolicy")]
     [Route("api/[controller]")]
     [ApiController]
-    [AuthActionFilter]
+    //[AuthActionFilter]
     public class CategoriesController : ControllerBase
     {
         private CategoryManager _categoryManager;

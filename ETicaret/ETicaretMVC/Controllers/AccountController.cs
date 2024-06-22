@@ -129,6 +129,12 @@ namespace ETicaretMVC.Controllers
 
             return BadRequest();
         }
+        
+        public IActionResult Logout()
+        {
+            _httpClient.PostAsync(_configuration["Api:Logout:EndPoints"],null);
+            return RedirectToAction("Index", "Home");
+        }
 
         private byte[] Base64UrlDecode(string arg)
         {
